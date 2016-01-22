@@ -18,7 +18,13 @@ class Piece
 
 	def legal_move?(destination)
 		#checks to see if desired move is in possible moves
-		@moves.each { |coordinates| return true if (coordinates[0] == destination[0]) and (coordinates[1] == destination[1])}
+		@moves.each do |coordinates|
+			if (coordinates === destination)
+				return true
+			end
+		end
+
+		puts "Illegal move"
 		return false
 	end
 end
