@@ -59,6 +59,8 @@ class King < Piece
 				end
 			end
 		end
+
+		return modifiers
 	end
 
 	def apply_boundariesBACKUP(coordinates, modifiers)
@@ -153,7 +155,7 @@ class King < Piece
 
 		queen_moves.each do |move|
 			move[1].each do |distance|
-				location = board[coordinates[0] + distance[0]][coordinates[1] + distance[1]]
+				location = board.nodes[coordinates[0] + distance[0]][coordinates[1] + distance[1]]
 				if (!location.nil?) && (location.color != @color)
 					if location.is_a?(Bishop) || location.is_a?(Queen) || location.is_a?(Rook)
 						return true
@@ -179,13 +181,10 @@ class King < Piece
 		knight_moves = apply_boundaries(coordinates, knight_moves)
 
 		knight_moves.each do |move|
-			location = board[coordinates[0] + move[1][0]][coordinates[1] + move[1][1]]
+			location = board.nodes[coordinates[0] + move[1][0]][coordinates[1] + move[1][1]]
 			if (!location.nil?) && (location.color != @color) && location.is_a?(Knight)
 				return true
 			end
 		end
 	end
 end
-
-#add @position to Piece
-#initialize moves to [] in Piece

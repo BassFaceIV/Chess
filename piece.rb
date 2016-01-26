@@ -3,10 +3,12 @@ class Piece
 	attr_accessor :id
 	attr_accessor :color
 	attr_accessor :moves
+	attr_accessor :position
 
 	def initialize(color)
 		@id = @@pieces
 		@color = color
+		@moves = []
 
 		@@pieces += 1
 	end
