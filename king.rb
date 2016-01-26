@@ -5,14 +5,14 @@ class King < Piece
 	attr_accessor :check
 	attr_accessor :check_mate
 
-	def initialize(color, symbol)
-		super(color, symbol)
+	def initialize(color, position, symbol)
+		super(color, position, symbol)
 		@castled = false
 		@check = false
 		@check_mate = false
 	end
 
-	def generate_moves(board)
+	def generate_moves
 		modifiers = {:n => [0, 1],
 					 :ne => [1, 1],
 					 :e => [1, 0],
@@ -24,13 +24,13 @@ class King < Piece
 
 		modifiers = apply_boundaries(@position, modifiers)
 
-		modifiers.each do |modifier|
-			newX = @position[0] + modifier[1][0]
-			newY = @position[1] + modifier[1][1]
-			if !in_check?(board, [newX, newY])
-				@moves << [newX, newY]
-			end
-		end
+		#modifiers.each do |modifier|
+			#newX = @position[0] + modifier[1][0]
+			#newY = @position[1] + modifier[1][1]
+			#if !in_check?(board, [newX, newY])
+			#	@moves << [newX, newY]
+			#end
+		#end
 
 		if @moves.empty?
 			@check_mate = true
@@ -39,28 +39,6 @@ class King < Piece
 
 	def remove_move(coordinates)
 		@moves.delete([coordinates[0], coordinates[1]])
-	end
-
-	def apply_boundaries(coordinates, modifiers)
-		modifiers.each do |mod|
-			if mod[1][0].is_a?(Array)
-				mod[1].each do |dist|
-					if (coordinates[0] + dist[0] < 0) || (coordinates[0] + dist[0] > 7) || (coordinates[1] + dist[1] < 0) || (coordinates[1] + dist[1] > 7)
-						mod[1].delete(dist)
-					end
-				end
-
-				if mod[1].empty?
-					modifiers.delete(mod)
-				end
-			else
-				if (coordinates[0] + mod[1][0] < 0) || (coordinates[0] + mod[1][0] > 7) || (coordinates[1] + mod[1][1] < 0) || (coordinates[1] + mod[1][1] > 7)
-					modifiers.delete(mod)
-				end
-			end
-		end
-
-		return modifiers
 	end
 
 	def apply_boundariesBACKUP(coordinates, modifiers)

@@ -13,18 +13,23 @@ class Board
 		end
 
 		#king: 4,0/7
-		@nodes[4][0] << King.new(:white, "\u2654")
-		@nodes[4][7] << King.new(:black, "\u265A")
+		@nodes[4][0] << King.new(:white, [4, 0], "\u2654")
+		@nodes[4][7] << King.new(:black, [4, 7], "\u265A")
 
 		#queen: 3,0/7
-		@nodes[3][0] << Queen.new(:white, "\u2655")
-		@nodes[3][7] << Queen.new(:black, "\u265B")
+		@nodes[3][0] << Queen.new(:white, [3, 0], "\u2655")
+		@nodes[3][7] << Queen.new(:black, [3, 7], "\u265B")
 	end
 
 	def move(piece, destination)
 		if piece.legal_move?(destination)
-			@nodes[destination[0]][destination[1]][0] << @nodes[piece.position[0]][piece.position[1]].pop
+			@nodes[destination[0]][destination[1]] << @nodes[piece.position[0]][piece.position[1]].pop
+			@nodes[destination[0]][destination[1]][0].position = destination
+			@nodes[destination[0]][destination[1]][0].generate_moves
+			return true
 		end
+
+		return false
 	end
 
 	def display

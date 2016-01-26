@@ -1,8 +1,11 @@
+require_relative 'board'
+
 class Chess
+	attr_accessor :board
 
 	def initialize
 		#Add logic to create new game or load an existing one
-		pass
+		@board = Board.new
 	end
 
 	def load_game
@@ -14,10 +17,20 @@ class Chess
 	end
 
 	def game_loop
-		pass
+		@board.display
 	end
 
 	def query_player
 		pass
 	end
 end
+
+game = Chess.new
+game.game_loop
+#puts game.board.nodes[3][0][0].generate_moves(game.board)
+game.board.move(game.board.nodes[3][0][0], [3, 6])
+game.board.display
+game.board.move(game.board.nodes[3][6][0], [7, 2])
+game.board.display
+game.board.move(game.board.nodes[7][2][0], [0, 6])
+game.board.display

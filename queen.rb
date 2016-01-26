@@ -1,9 +1,10 @@
 require_relative 'piece'
 
 class Queen < Piece
-	def generate_moves(board)
+	def generate_moves
 		queen_moves = {:n => [], :ne => [], :e => [], :se => [], :s => [], :sw => [], :w => [], :nw => []}
 		move_range =* (-7..7)
+		@moves = []
 
 		move_range.each do |x|
 			queen_moves[:n] << [0, x]
@@ -16,30 +17,14 @@ class Queen < Piece
 			queen_moves[:nw] << [-x, x]
 		end
 
-		queen_moves = apply_boundaries(coordinates, queen_moves)
-		queen_moves = apply_attacks(coordinates, queen_moves)
-	end
+		#queen_moves = apply_boundaries(@position, queen_moves)
+		#queen_moves = apply_attacks(board, queen_moves)
 
-	def apply_boundaries(coordinates, modifiers)
-		modifiers.each do |mod|
-			if mod[1][0].is_a?(Array)
-				mod[1].each do |dist|
-					if (coordinates[0] + dist[0] < 0) || (coordinates[0] + dist[0] > 7) || (coordinates[1] + dist[1] < 0) || (coordinates[1] + dist[1] > 7)
-						mod[1].delete(dist)
-					end
-				end
-
-				if mod[1].empty?
-					modifiers.delete(mod)
-				end
-			else
-				if (coordinates[0] + mod[1][0] < 0) || (coordinates[0] + mod[1][0] > 7) || (coordinates[1] + mod[1][1] < 0) || (coordinates[1] + mod[1][1] > 7)
-					modifiers.delete(mod)
-				end
+		queen_moves.each do |direction, distances|
+			distances.each do |distance|
+				@moves << [@position[0] + distance[0], @position[1] + distance[1]]
 			end
 		end
-
-		return modifiers
 	end
 
 	def apply_attacks(board, modifiers)
@@ -47,9 +32,10 @@ class Queen < Piece
 			remove_remaining = false
 
 			direction[1].each do |distance|
+				puts "#{board.nodes[@position[0] + distance[0]][@position[1] + distance[1]]}"
 				if remove_remaining
 					direction[1].delete(distance)
-				elsif !board.nodes[distance[0]][distance[1]].nil?
+				elsif !board.nodes[@position[0] + distance[0]][@position[1] + distance[1]].nil?
 					remove_remaining = true
 				end
 			end
@@ -58,6 +44,3 @@ class Queen < Piece
 		return modifiers
 	end
 end
-
-#add apply_boundaries to Piece
-#add board parameter to generate_moves template in Piece
