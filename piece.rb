@@ -13,7 +13,7 @@ class Piece
 		@@pieces += 1
 	end
 
-	def generate_moves
+	def generate_moves(board)
 		#generates immediate possible moves
 		raise NotImplementedError.new "generate_moves"
 	end

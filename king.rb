@@ -166,11 +166,11 @@ class King < Piece
 					end
 
 					if location.is_a?(Pawn) && (distance[0].abs == 1)
-						if (@color == "black") && (distance[1] == -1)
+						if (@color == :black) && (distance[1] == -1)
 							return true
 						end
 
-						if (@color == "white") && (distance[1] == 1)
+						if (@color == :white) && (distance[1] == 1)
 							return true
 						end
 					end
