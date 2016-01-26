@@ -27,7 +27,6 @@ end
 
 game = Chess.new
 game.game_loop
-#puts game.board.nodes[3][0][0].generate_moves(game.board)
 game.board.move(game.board.nodes[3][0][0], [3, 6])
 game.board.display
 game.board.move(game.board.nodes[3][6][0], [7, 2])
