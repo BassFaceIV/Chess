@@ -5,8 +5,8 @@ class King < Piece
 	attr_accessor :check
 	attr_accessor :check_mate
 
-	def initialize(color)
-		super(color)
+	def initialize(color, symbol)
+		super(color, symbol)
 		@castled = false
 		@check = false
 		@check_mate = false
@@ -43,7 +43,7 @@ class King < Piece
 
 	def apply_boundaries(coordinates, modifiers)
 		modifiers.each do |mod|
-			if mod[1][0].is_an?(Array)
+			if mod[1][0].is_a?(Array)
 				mod[1].each do |dist|
 					if (coordinates[0] + dist[0] < 0) || (coordinates[0] + dist[0] > 7) || (coordinates[1] + dist[1] < 0) || (coordinates[1] + dist[1] > 7)
 						mod[1].delete(dist)

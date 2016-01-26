@@ -1,6 +1,6 @@
 require_relative 'piece'
 
-class Queen < piece
+class Queen < Piece
 	def generate_moves(board)
 		queen_moves = {:n => [], :ne => [], :e => [], :se => [], :s => [], :sw => [], :w => [], :nw => []}
 		move_range =* (-7..7)
@@ -22,7 +22,7 @@ class Queen < piece
 
 	def apply_boundaries(coordinates, modifiers)
 		modifiers.each do |mod|
-			if mod[1][0].is_an?(Array)
+			if mod[1][0].is_a?(Array)
 				mod[1].each do |dist|
 					if (coordinates[0] + dist[0] < 0) || (coordinates[0] + dist[0] > 7) || (coordinates[1] + dist[1] < 0) || (coordinates[1] + dist[1] > 7)
 						mod[1].delete(dist)
