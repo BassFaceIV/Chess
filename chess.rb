@@ -2,10 +2,14 @@ require_relative 'board'
 
 class Chess
 	attr_accessor :board
+	attr_accessor :player_turn
+	attr_accessor :game_over
 
 	def initialize
 		#Add logic to create new game or load an existing one
 		@board = Board.new
+		@player_turn = 1
+		@game_over = false
 	end
 
 	def load_game
@@ -17,37 +21,42 @@ class Chess
 	end
 
 	def game_loop
-		@board.display
+		while !@game_over
+			@board.display
+			from, to = query_player
+			@player_turn = @player_turn == 1 ? 2 : 1
+		end
 	end
 
 	def query_player
-		pass
+		puts "Moves: [a# => b#], [quit]"
+		print "(Player #{player_turn}) >> "
+		move = gets.chomp
+		return parseMove(move)
+	end
+
+	def parseMove(move)
+		case move
+		when "quit" then @game_over = true
+		else
+			from, to = move.split(" => ")
+
+			from = from.split("")
+			from[0] = from[0].ord - 97
+			from[1] = from[1].to_i
+
+			to = to.split("")
+			to[0] = to[0].ord - 97
+			to[1] = to[1].to_i
+
+			return from, to
+		end
 	end
 end
 
 game = Chess.new
 game.game_loop
-game.board.move(game.board.nodes[3][0][0], [3, 6])
-game.board.pass_others(game.board.nodes[4][7][0])
-puts "Check: #{game.board.nodes[4][7][0].in_check?}"
-game.board.display
-game.board.move(game.board.nodes[1][0][0], [3, 1])
-game.board.pass_others(game.board.nodes[4][7][0])
-puts "Check: #{game.board.nodes[4][7][0].in_check?}"
-game.board.display
-game.board.move(game.board.nodes[1][0][0], [2, 2])
-game.board.pass_others(game.board.nodes[4][7][0])
-puts "Check: #{game.board.nodes[4][7][0].in_check?}"
-game.board.display
-game.board.move(game.board.nodes[2][2][0], [3, 0])
-game.board.pass_others(game.board.nodes[4][7][0])
-puts "Check: #{game.board.nodes[4][7][0].in_check?}"
-game.board.display
-game.board.move(game.board.nodes[2][2][0], [3, 4])
-game.board.pass_others(game.board.nodes[4][7][0])
-puts "Check: #{game.board.nodes[4][7][0].in_check?}"
-game.board.display
-game.board.move(game.board.nodes[3][4][0], [5, 5])
-game.board.pass_others(game.board.nodes[4][7][0])
-puts "Check: #{game.board.nodes[4][7][0].in_check?}"
-game.board.display
+#game.board.move(game.board.nodes[3][0][0], [3, 6])
+#game.board.pass_others(game.board.nodes[4][7][0])
+#puts "Check: #{game.board.nodes[4][7][0].in_check?}"
+#game.board.display
