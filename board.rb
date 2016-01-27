@@ -22,22 +22,27 @@ class Board
 	end
 
 	def move(piece, destination)
+		pass_others(piece)
+		@nodes[destination[0]][destination[1]][0].generate_moves
 		if piece.legal_move?(destination)
 			@nodes[destination[0]][destination[1]] << @nodes[piece.position[0]][piece.position[1]].pop
 			@nodes[destination[0]][destination[1]][0].position = destination
-			@nodes[destination[0]][destination[1]][0].generate_moves
 			return true
 		end
 
 		return false
 	end
 
-	def pass_attacks(piece)
-		pass
-	end
-
-	def pass_friendlies(piece)
-		pass
+	def pass_others(piece)
+		@nodes.each do |columns|
+			columns.each do |rows|
+				if rows[0].color == piece.color
+					piece.allies << rows[0].position
+				else
+					piece.enemies << rows[0].position
+				end
+			end
+		end
 	end
 
 	def display
