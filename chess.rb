@@ -23,7 +23,10 @@ class Chess
 	def game_loop
 		while !@game_over
 			@board.display
-			from, to = query_player
+			begin
+				from, to = query_player
+				moved = @board.move(from, to) if !@game_over
+			end while !moved
 			@player_turn = @player_turn == 1 ? 2 : 1
 		end
 	end

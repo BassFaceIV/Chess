@@ -61,15 +61,19 @@ class Board
 		@nodes[7][6] << Pawn.new(:black, [7, 6], "\u265F")
 	end
 
-	def move(piece, destination)
+	def move(origin, destination)
+		piece = @nodes[origin[0]][origin[1]][0]
 		pass_others(piece)
 		piece.generate_moves
 		if piece.legal_move?(destination)
 			@nodes[destination[0]][destination[1]] << @nodes[piece.position[0]][piece.position[1]].pop
 			piece.position = destination
+
 			if piece.is_a?(Pawn)
 				piece.moved = true
 			end
+
+			attacked?(destination)
 			return true
 		end
 
@@ -89,6 +93,15 @@ class Board
 					end
 				end
 			end
+		end
+	end
+
+	def attacked?(location)
+		piece = @nodes[location[0]][location[1]]
+		puts piece[0]
+		if piece.size > 1
+			puts "attacked"
+			piece.delete_at(0)
 		end
 	end
 
