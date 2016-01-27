@@ -22,7 +22,7 @@ class King < Piece
 					 [-1, 0],
 					 [-1, 1]]
 
-		apply_boundaries(@position, modifiers)
+		apply_boundaries(modifiers)
 
 		#modifiers.each do |modifier|
 			#newX = @position[0] + modifier[1][0]

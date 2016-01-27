@@ -39,3 +39,13 @@ game.board.move(game.board.nodes[7][2][0], [9, 2])
 game.board.display
 game.board.move(game.board.nodes[7][2][0], [0, 2])
 game.board.display
+game.board.move(game.board.nodes[0][2][0], [0, 7])
+game.board.display
+game.board.move(game.board.nodes[0][7][0], [7, 7])
+game.board.display
+game.board.move(game.board.nodes[0][7][0], [0, 0])
+game.board.display
+game.board.move(game.board.nodes[0][0][0], [7, 0])
+game.board.display
+game.board.move(game.board.nodes[0][0][0], [4, 0])
+game.board.display
