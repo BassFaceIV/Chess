@@ -13,16 +13,16 @@ class King < Piece
 	end
 
 	def generate_moves
-		modifiers = {:n => [0, 1],
-					 :ne => [1, 1],
-					 :e => [1, 0],
-					 :se => [1, -1],
-					 :s => [0, -1],
-					 :sw => [-1, -1],
-					 :w => [-1, 0],
-					 :nw => [-1, 1]}
+		modifiers = [[0, 1],
+					 [1, 1],
+					 [1, 0],
+					 [1, -1],
+					 [0, -1],
+					 [-1, -1],
+					 [-1, 0],
+					 [-1, 1]]
 
-		modifiers = apply_boundaries(@position, modifiers)
+		apply_boundaries(@position, modifiers)
 
 		#modifiers.each do |modifier|
 			#newX = @position[0] + modifier[1][0]
