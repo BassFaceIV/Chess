@@ -4,6 +4,7 @@ require_relative 'queen'
 require_relative 'rook'
 require_relative 'bishop'
 require_relative 'knight'
+require_relative 'pawn'
 
 class Board
 	attr_accessor :nodes
@@ -40,6 +41,24 @@ class Board
 		@nodes[6][0] << Knight.new(:white, [6, 0], "\u2658")
 		@nodes[1][7] << Knight.new(:black, [1, 7], "\u265E")
 		@nodes[6][7] << Knight.new(:black, [6, 7], "\u265E")
+
+		#pawn: 0-7, 1/6
+		@nodes[0][1] << Pawn.new(:white, [0, 1], "\u2659")
+		@nodes[1][1] << Pawn.new(:white, [1, 1], "\u2659")
+		@nodes[2][1] << Pawn.new(:white, [2, 1], "\u2659")
+		@nodes[3][1] << Pawn.new(:white, [3, 1], "\u2659")
+		@nodes[4][1] << Pawn.new(:white, [4, 1], "\u2659")
+		@nodes[5][1] << Pawn.new(:white, [5, 1], "\u2659")
+		@nodes[6][1] << Pawn.new(:white, [6, 1], "\u2659")
+		@nodes[7][1] << Pawn.new(:white, [7, 1], "\u2659")
+		@nodes[0][6] << Pawn.new(:black, [0, 6], "\u265F")
+		@nodes[1][6] << Pawn.new(:black, [1, 6], "\u265F")
+		@nodes[2][6] << Pawn.new(:black, [2, 6], "\u265F")
+		@nodes[3][6] << Pawn.new(:black, [3, 6], "\u265F")
+		@nodes[4][6] << Pawn.new(:black, [4, 6], "\u265F")
+		@nodes[5][6] << Pawn.new(:black, [5, 6], "\u265F")
+		@nodes[6][6] << Pawn.new(:black, [6, 6], "\u265F")
+		@nodes[7][6] << Pawn.new(:black, [7, 6], "\u265F")
 	end
 
 	def move(piece, destination)
@@ -48,6 +67,9 @@ class Board
 		if piece.legal_move?(destination)
 			@nodes[destination[0]][destination[1]] << @nodes[piece.position[0]][piece.position[1]].pop
 			piece.position = destination
+			if piece.is_a?(Pawn)
+				piece.moved = true
+			end
 			return true
 		end
 

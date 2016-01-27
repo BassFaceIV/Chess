@@ -29,15 +29,7 @@ game = Chess.new
 game.game_loop
 game.board.move(game.board.nodes[3][0][0], [3, 6])
 game.board.display
-game.board.move(game.board.nodes[0][7][0], [0, 5])
+game.board.move(game.board.nodes[1][0][0], [3, 1])
 game.board.display
-game.board.move(game.board.nodes[0][5][0], [1, 3])
-game.board.display
-game.board.move(game.board.nodes[5][0][0], [3, 2])
-game.board.display
-game.board.move(game.board.nodes[3][2][0], [3, 0])
-game.board.display
-game.board.move(game.board.nodes[6][0][0], [5, 2])
-game.board.display
-game.board.move(game.board.nodes[5][2][0], [4, 0])
+game.board.move(game.board.nodes[1][0][0], [2, 2])
 game.board.display
