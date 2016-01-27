@@ -2,6 +2,7 @@ require 'colorize'
 require_relative 'king'
 require_relative 'queen'
 require_relative 'rook'
+require_relative 'bishop'
 
 class Board
 	attr_accessor :nodes
@@ -26,6 +27,12 @@ class Board
 		@nodes[7][0] << Rook.new(:white, [7, 0], "\u2656")
 		@nodes[0][7] << Rook.new(:black, [0, 7], "\u265C")
 		@nodes[7][7] << Rook.new(:black, [7, 7], "\u265C")
+
+		#bishop: 2/5, 0/7
+		@nodes[2][0] << Bishop.new(:white, [2, 0], "\u2657")
+		@nodes[5][0] << Bishop.new(:white, [5, 0], "\u2657")
+		@nodes[2][7] << Bishop.new(:black, [2, 7], "\u265D")
+		@nodes[5][7] << Bishop.new(:black, [5, 7], "\u265D")
 	end
 
 	def move(piece, destination)
