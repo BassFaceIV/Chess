@@ -3,6 +3,7 @@ require_relative 'king'
 require_relative 'queen'
 require_relative 'rook'
 require_relative 'bishop'
+require_relative 'knight'
 
 class Board
 	attr_accessor :nodes
@@ -33,6 +34,12 @@ class Board
 		@nodes[5][0] << Bishop.new(:white, [5, 0], "\u2657")
 		@nodes[2][7] << Bishop.new(:black, [2, 7], "\u265D")
 		@nodes[5][7] << Bishop.new(:black, [5, 7], "\u265D")
+
+		#knight: 1/6, 0/7
+		@nodes[1][0] << Knight.new(:white, [1, 0], "\u2658")
+		@nodes[6][0] << Knight.new(:white, [6, 0], "\u2658")
+		@nodes[1][7] << Knight.new(:black, [1, 7], "\u265E")
+		@nodes[6][7] << Knight.new(:black, [6, 7], "\u265E")
 	end
 
 	def move(piece, destination)
