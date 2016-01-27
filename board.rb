@@ -19,6 +19,12 @@ class Board
 		#queen: 3,0/7
 		@nodes[3][0] << Queen.new(:white, [3, 0], "\u2655")
 		@nodes[3][7] << Queen.new(:black, [3, 7], "\u265B")
+
+		#rook: 0/7, 0/7
+		@nodes[0][0] << Rook.new(:white, [0, 0], "\u2656")
+		@nodes[7][0] << Rook.new(:white, [7, 0], "\u2656")
+		@nodes[0][7] << Rook.new(:black, [0, 7], "\u265C")
+		@nodes[7][7] << Rook.new(:black, [7, 7], "\u265C")
 	end
 
 	def move(piece, destination)

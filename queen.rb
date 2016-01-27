@@ -2,7 +2,6 @@ require_relative 'piece'
 
 class Queen < Piece
 	def generate_moves
-		#queen_moves = {:n => [], :ne => [], :e => [], :se => [], :s => [], :sw => [], :w => [], :nw => []}
 		queen_moves = []
 		move_range =* (1..7)
 		@moves = []
