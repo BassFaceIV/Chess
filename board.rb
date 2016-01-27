@@ -32,6 +32,14 @@ class Board
 		return false
 	end
 
+	def pass_attacks(piece)
+		pass
+	end
+
+	def pass_friendlies(piece)
+		pass
+	end
+
 	def display
 		bg_flag = false
 
