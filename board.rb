@@ -1,6 +1,7 @@
 require 'colorize'
 require_relative 'king'
 require_relative 'queen'
+require_relative 'rook'
 
 class Board
 	attr_accessor :nodes
