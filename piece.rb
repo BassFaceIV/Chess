@@ -54,7 +54,7 @@ class Piece
 			mod_mag = Math.sqrt(mod[0] ** 2 + mod[1] ** 2)
 
 			#delete if it has the same direction and a greater or equal magnetude than any ally
-			value = @allies.any? do |allies|
+			@allies.any? do |allies|
 				allies_dif0 = allies[0] - @position[0]
 				allies_dif1 = allies[1] - @position[1]
 				allies_dir = [allies_dif0 <=> 0, allies_dif1 <=> 0]
