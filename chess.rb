@@ -25,8 +25,13 @@ class Chess
 			@board.display
 			begin
 				from, to = query_player
-				moved = @board.move(from, to) if !@game_over
+				moved = @board.move(player_turn, from, to) if !@game_over
 			end while !moved
+			winner = @board.check_mate?
+			if winner != false
+				puts "Player #{@player_turn} destroyed Player #{@player_turn == 1 ? 2 : 1}!"
+				@game_over = true
+			end
 			@player_turn = @player_turn == 1 ? 2 : 1
 		end
 	end

@@ -8,6 +8,7 @@ require_relative 'pawn'
 
 class Board
 	attr_accessor :nodes
+	attr_accessor :kings
 
 	def initialize
 		@nodes = []
@@ -59,22 +60,33 @@ class Board
 		@nodes[5][6] << Pawn.new(:black, [5, 6], "\u265F")
 		@nodes[6][6] << Pawn.new(:black, [6, 6], "\u265F")
 		@nodes[7][6] << Pawn.new(:black, [7, 6], "\u265F")
+
+		@kings = {:white => @nodes[4][0][0], :black => @nodes[4][7][0]}
 	end
 
-	def move(origin, destination)
+	def move(player, origin, destination)
 		piece = @nodes[origin[0]][origin[1]][0]
-		pass_others(piece)
-		piece.generate_moves
-		if piece.legal_move?(destination)
-			@nodes[destination[0]][destination[1]] << @nodes[piece.position[0]][piece.position[1]].pop
-			piece.position = destination
+		if !piece.nil?
+			if ((player == 1) && (piece.color == :white)) || ((player == 2) && (piece.color == :black))
+				pass_others(piece)
+				piece.generate_moves
 
-			if piece.is_a?(Pawn)
-				piece.moved = true
+				if piece.legal_move?(destination)
+					@nodes[destination[0]][destination[1]] << @nodes[piece.position[0]][piece.position[1]].pop
+					piece.position = destination
+
+					if piece.is_a?(Pawn)
+						piece.moved = true
+					end
+
+					attacked?(destination)
+					return true
+				end
+			else
+				puts "That is not your piece"
 			end
-
-			attacked?(destination)
-			return true
+		else
+			puts "There is no piece at that location"
 		end
 
 		return false
@@ -98,9 +110,7 @@ class Board
 
 	def attacked?(location)
 		piece = @nodes[location[0]][location[1]]
-		puts piece[0]
 		if piece.size > 1
-			puts "attacked"
 			piece.delete_at(0)
 		end
 	end
@@ -126,5 +136,15 @@ class Board
 		end
 
 		puts "  a  b  c  d  e  f  g  h"
+	end
+
+	def check_mate?
+		if @kings[:white].check_mate
+			return :white
+		elsif @kings[:black].check_mate
+			return :black
+		else
+			return false
+		end
 	end
 end
