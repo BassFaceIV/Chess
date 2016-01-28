@@ -64,12 +64,25 @@ class Board
 		@kings = {:white => @nodes[4][0][0], :black => @nodes[4][7][0]}
 	end
 
+	def update
+		@nodes.each do |columns|
+			columns.each do |rows|
+				piece = rows[0]
+
+				if !piece.nil?
+					pass_others(piece)
+					piece.generate_moves
+				end
+			end
+		end
+	end
+
 	def move(player, origin, destination)
 		piece = @nodes[origin[0]][origin[1]][0]
 		if !piece.nil?
 			if ((player == 1) && (piece.color == :white)) || ((player == 2) && (piece.color == :black))
-				pass_others(piece)
-				piece.generate_moves
+				#pass_others(piece)
+				#piece.generate_moves
 
 				if piece.legal_move?(destination)
 					@nodes[destination[0]][destination[1]] << @nodes[piece.position[0]][piece.position[1]].pop

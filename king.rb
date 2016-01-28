@@ -24,7 +24,7 @@ class King < Piece
 
 		apply_boundaries(modifiers)
 
-		if @moves.empty?
+		if @moves.empty? && @check
 			@check_mate = true
 		end
 	end

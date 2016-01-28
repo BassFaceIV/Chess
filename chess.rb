@@ -21,17 +21,24 @@ class Chess
 	end
 
 	def game_loop
+		board.update
+
 		while !@game_over
 			@board.display
+
 			begin
 				from, to = query_player
 				moved = @board.move(player_turn, from, to) if !@game_over
+				board.update
 			end while !moved
+
 			winner = @board.check_mate?
+
 			if winner != false
 				puts "Player #{@player_turn} destroyed Player #{@player_turn == 1 ? 2 : 1}!"
 				@game_over = true
 			end
+			
 			@player_turn = @player_turn == 1 ? 2 : 1
 		end
 	end

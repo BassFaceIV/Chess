@@ -31,3 +31,5 @@ class Pawn < Piece
 		end
 	end
 end
+
+#subtract forward movement in apply_attacks
