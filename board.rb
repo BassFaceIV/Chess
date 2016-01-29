@@ -83,7 +83,7 @@ class Board
 
 	def move(player, origin, destination)
 		piece = @nodes[origin[0]][origin[1]][0]
-		if !piece.nil?
+		if !piece.nil? && !check?(player, piece)
 			if ((player == 1) && (piece.color == :white)) || ((player == 2) && (piece.color == :black))
 				#pass_others(piece)
 				#piece.generate_moves
@@ -153,6 +153,15 @@ class Board
 		end
 
 		puts "  a  b  c  d  e  f  g  h"
+	end
+
+	def check?(player, piece)
+		color = player == 1 ? :white : :black
+		if @kings[color].check && (@kings[color].id != piece.id)
+			puts "Your king is in check"
+			return true
+		end
+		return false
 	end
 
 	def check_mate?

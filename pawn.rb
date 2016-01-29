@@ -23,13 +23,13 @@ class Pawn < Piece
 
 	def apply_attacks(modifiers)
 		if @color == :white
-			modifiers << [1, 1] if @enemies.any? { |enemy| enemy = [@position[0] + 1, @position[1] + 1]}
-			modifiers << [-1, 1] if @enemies.any? { |enemy| enemy = [@position[0] - 1, @position[1] + 1]}
+			modifiers.delete([0, 1]) if @enemies.any? { |enemy| enemy == [@position[0], @position[1] + 1]}
+			modifiers << [1, 1] if @enemies.any? { |enemy| enemy == [@position[0] + 1, @position[1] + 1]}
+			modifiers << [-1, 1] if @enemies.any? { |enemy| enemy == [@position[0] - 1, @position[1] + 1]}
 		else
-			modifiers << [1, -1] if @enemies.any? { |enemy| enemy = [@position[0] + 1, @position[1] - 1]}
-			modifiers << [-1, -1] if @enemies.any? { |enemy| enemy = [@position[0] - 1, @position[1] - 1]}
+			modifiers.delete([0, -1]) if @enemies.any? { |enemy| enemy == [@position[0], @position[1] - 1]}
+			modifiers << [1, -1] if @enemies.any? { |enemy| enemy == [@position[0] + 1, @position[1] - 1]}
+			modifiers << [-1, -1] if @enemies.any? { |enemy| enemy == [@position[0] - 1, @position[1] - 1]}
 		end
 	end
 end
-
-#subtract forward movement in apply_attacks
