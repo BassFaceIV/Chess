@@ -75,6 +75,10 @@ class Board
 				end
 			end
 		end
+
+		kings.each do |color, king|
+			king.in_check?
+		end
 	end
 
 	def move(player, origin, destination)
