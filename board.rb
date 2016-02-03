@@ -35,7 +35,7 @@ class Board
 		@nodes[2][0] << Bishop.new(:bishop, :white, [2, 0], "\u2657")
 		@nodes[5][0] << Bishop.new(:bishop, :white, [5, 0], "\u2657")
 		@nodes[2][7] << Bishop.new(:bishop, :black, [2, 7], "\u265D")
-		@nodes[1][3] << Bishop.new(:bishop, :black, [1, 3], "\u265D") #5,7
+		@nodes[5][7] << Bishop.new(:bishop, :black, [5, 7], "\u265D")
 
 		#knight: 1/6, 0/7
 		@nodes[1][0] << Knight.new(:knight, :white, [1, 0], "\u2658")
@@ -70,7 +70,6 @@ class Board
 				piece = rows[0]
 
 				if !piece.nil?
-					#puts "#{piece.label}: #{piece.position}"
 					pass_others(piece)
 					piece.generate_moves
 				end
@@ -79,7 +78,6 @@ class Board
 
 		@kings.each do |color, king|
 			king.check = king.in_check?
-			puts "#{color} king check = #{king.check}"
 		end
 	end
 
@@ -103,6 +101,7 @@ class Board
 					#puts "Player #{player}: Check = #{check?(player, piece)}"
 
 					if check?(player, piece)
+						puts "Your king is in check"
 						@nodes[prevPosition[0]][prevPosition[1]] << @nodes[destination[0]][destination[1]].pop
 						piece.position = prevPosition
 
@@ -177,22 +176,50 @@ class Board
 
 	def check?(player, piece)
 		color = player == 1 ? :white : :black
-		#puts "Checking checkness:"
-		#puts "    #{color}, #{@kings[color].check} && #{@kings[color].id} != #{piece.id}"
-		if @kings[color].check
-			puts "Your king is in check"
-			return true
-		end
-		return false
+
+		return @kings[color].check
 	end
 
-	def check_mate?
-		if @kings[:white].check_mate
-			return :white
-		elsif @kings[:black].check_mate
-			return :black
-		else
-			return false
+	def check_mate?(player)
+		flag4 = @nodes.all? do |node|
+			flag3 = node.all? do |n|
+				piece = n[0]
+				flag2 = true;
+				#make all possible moves with piece
+				if !piece.nil? && (piece.color == (player == 1 ? :white : :black))
+					flag2 = piece.moves.all? do |move|
+						#check if king is still in check
+						tempNode = @nodes[move[0]][move[1]][0]
+						prevPosition = piece.position
+
+						@nodes[move[0]][move[1]] << @nodes[piece.position[0]][piece.position[1]].pop
+						piece.position = move
+
+						attacked = attacked?(move)
+
+						update
+
+						flag = check?(player, piece)
+
+						@nodes[prevPosition[0]][prevPosition[1]] << @nodes[move[0]][move[1]].pop
+						piece.position = prevPosition
+
+						if attacked
+							@nodes[move[0]][move[1]] << tempNode
+						end
+
+						update
+
+						flag
+					end
+				end
+
+				flag2
+			end
+
+			flag3
 		end
+
+		return flag4
 	end
 end

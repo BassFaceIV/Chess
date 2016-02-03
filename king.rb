@@ -13,6 +13,8 @@ class King < Piece
 	end
 
 	def generate_moves
+		@moves = []
+
 		modifiers = [[0, 1],
 					 [1, 1],
 					 [1, 0],
@@ -77,10 +79,6 @@ class King < Piece
 		end
 
 		@check = checks.empty? ? false : true
-
-		if @moves.empty? && @check
-			@check_mate = true
-		end
 
 		return @check
 	end

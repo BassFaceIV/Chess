@@ -4,12 +4,14 @@ class Chess
 	attr_accessor :board
 	attr_accessor :player_turn
 	attr_accessor :game_over
+	attr_accessor :player_ended
 
 	def initialize
 		#Add logic to create new game or load an existing one
 		@board = Board.new
 		@player_turn = 1
 		@game_over = false
+		@player_ended = false
 	end
 
 	def load_game
@@ -29,16 +31,16 @@ class Chess
 			moved = false
 			begin
 				from, to = query_player
-				moved = @board.move(player_turn, from, to) if !@game_over
+				moved = @board.move(player_turn, from, to) if !@player_ended
 				#puts "-------------------------------GAME LOOP---------------------------------"
 				@board.update
+				winner = @board.check_mate?(@player_turn == 1 ? 2 : 1)
+				@game_over = winner || @player_ended
 				#puts @board.kings[:black].check_mate
 			end while !moved && !@game_over
 
-			winner = false#@board.check_mate?
 			if winner != false
 				puts "Player #{@player_turn} destroyed Player #{@player_turn == 1 ? 2 : 1}!"
-				@game_over = true
 			end
 			
 			@player_turn = @player_turn == 1 ? 2 : 1
@@ -54,7 +56,7 @@ class Chess
 
 	def parseMove(move)
 		case move
-		when "quit" then @game_over = true
+		when "quit" then @player_ended = true
 		else
 			from, to = move.split(" => ")
 
@@ -73,7 +75,3 @@ end
 
 game = Chess.new
 game.game_loop
-#game.board.move(game.board.nodes[3][0][0], [3, 6])
-#game.board.pass_others(game.board.nodes[4][7][0])
-#puts "Check: #{game.board.nodes[4][7][0].in_check?}"
-#game.board.display

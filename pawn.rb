@@ -20,8 +20,6 @@ class Pawn < Piece
 		pawn_moves.each do |distance|
 			@moves << [@position[0] + distance[0], @position[1] + distance[1]]
 		end
-
-		#puts "#{@position}: #{@moves}"
 	end
 
 	def apply_obstacles(modifiers)
@@ -40,11 +38,9 @@ class Pawn < Piece
 
 	def apply_attacks(modifiers)
 		if @color == :white
-			#modifiers.delete([0, 1]) if @enemies.any? { |enemy| enemy[0] == [@position[0], @position[1] + 1]}
 			modifiers << [1, 1] if @enemies.any? { |enemy| enemy[0] == [@position[0] + 1, @position[1] + 1]}
 			modifiers << [-1, 1] if @enemies.any? { |enemy| enemy[0] == [@position[0] - 1, @position[1] + 1]}
 		else
-			#modifiers.delete([0, -1]) if @enemies.any? { |enemy| enemy[0] == [@position[0], @position[1] - 1]}
 			modifiers << [1, -1] if @enemies.any? { |enemy| enemy[0] == [@position[0] + 1, @position[1] - 1]}
 			modifiers << [-1, -1] if @enemies.any? { |enemy| enemy[0] == [@position[0] - 1, @position[1] - 1]}
 		end

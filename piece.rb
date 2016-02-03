@@ -61,7 +61,7 @@ class Piece
 				allies_dif1 = allies[0][1] - @position[1]
 				allies_dir = [allies_dif0 <=> 0, allies_dif1 <=> 0]
 				allies_mag = Math.sqrt(allies_dif0 ** 2 + allies_dif1 ** 2)
-				(allies_dir == mod_dir) && (mod_mag >= allies_mag)
+				(allies_dir == mod_dir) && (mod_mag.floor >= allies_mag.floor)
 			end
 		end
 	end
