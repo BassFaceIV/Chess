@@ -30,13 +30,14 @@ class Chess
 
 			moved = false
 			begin
-				from, to = query_player
+				begin
+					from, to = query_player
+				end while (from == :unrecognized)
+
 				moved = @board.move(player_turn, from, to) if !@player_ended
-				#puts "-------------------------------GAME LOOP---------------------------------"
 				@board.update
 				winner = @board.check_mate?(@player_turn == 1 ? 2 : 1)
 				@game_over = winner || @player_ended
-				#puts @board.kings[:black].check_mate
 			end while !moved && !@game_over
 
 			if winner != false
@@ -55,10 +56,12 @@ class Chess
 	end
 
 	def parseMove(move)
-		case move
-		when "quit" then @player_ended = true
-		else
-			from, to = move.split(" => ")
+		move = move.split(" ")
+
+		case
+		when move[0] == "quit" then @player_ended = true
+		when move[1] == "=>"
+			from, to = move[0], move[2]
 
 			from = from.split("")
 			from[0] = from[0].ord - 97
@@ -69,6 +72,9 @@ class Chess
 			to[1] = to[1].to_i
 
 			return from, to
+		else
+			puts "Command not recognized"
+			return :unrecognized
 		end
 	end
 end
