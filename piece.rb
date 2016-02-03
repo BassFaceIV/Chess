@@ -45,8 +45,7 @@ class Piece
 				enemy_dif1 = enemy[0][1] - @position[1]
 				enemy_dir = [enemy_dif0 <=> 0, enemy_dif1 <=> 0]
 				enemy_mag = Math.sqrt(enemy_dif0 ** 2 + enemy_dif1 ** 2)
-				puts "Mod_mag: #{mod_mag} | Enemy_mag: #{enemy_mag}"
-				(enemy_dir == mod_dir) && (mod_mag > enemy_mag)
+				(enemy_dir == mod_dir) && (mod_mag.floor > enemy_mag.floor)
 			end
 		end
 	end
