@@ -23,25 +23,16 @@ class King < Piece
 					 [-1, 1]]
 
 		apply_boundaries(modifiers)
+
+		modifiers.each do |distance|
+			@moves << [@position[0] + distance[0], @position[1] + distance[1]]
+		end
 	end
 
 	def in_check?
-		basic_moves = []
 		checks = []
 		knight_moves = [[1, 2], [2, 1], [2, -1], [1, -2], [-1, -2], [-2, -1], [-2, 1], [-1, 2]]
-		move_range =* (1..7)
 		troops = @enemies + @allies
-
-		move_range.each do |x|
-			basic_moves << [0, x]
-			basic_moves << [x, x]
-			basic_moves << [x, 0]
-			basic_moves << [x, -x]
-			basic_moves << [0, -x]
-			basic_moves << [-x, -x]
-			basic_moves << [-x, 0]
-			basic_moves << [-x, x]
-		end
 
 		enemy_moves = {[0, 1] => [:queen, :rook],
 					   [1, 0] => [:queen, :rook],
@@ -51,7 +42,7 @@ class King < Piece
 					   [1, -1] => [:queen, :bishop],
 					   [-1, -1] => [:queen, :bishop],
 					   [-1, 1] => [:queen, :bishop]}
-		#loop through enemies
+
 		@enemies.each do |enemy|
 			#special check for knights
 			if enemy[1] == :knight
@@ -84,8 +75,6 @@ class King < Piece
 				end
 			end
 		end
-
-		#puts "alarming: #{checks}"
 
 		@check = checks.empty? ? false : true
 

@@ -29,9 +29,11 @@ class Pawn < Piece
 
 		if @color == :white
 			modifiers.delete([0, 1]) if troops.any? { |troop| troop[0] == [@position[0], @position[1] + 1]}
+			modifiers.delete([0, 2]) if troops.any? { |troop| troop[0] == [@position[0], @position[1] + 1]}
 			modifiers.delete([0, 2]) if troops.any? { |troop| troop[0] == [@position[0], @position[1] + 2]}
 		else
 			modifiers.delete([0, -1]) if troops.any? { |troop| troop[0] == [@position[0], @position[1] - 1]}
+			modifiers.delete([0, -2]) if troops.any? { |troop| troop[0] == [@position[0], @position[1] - 1]}
 			modifiers.delete([0, -2]) if troops.any? { |troop| troop[0] == [@position[0], @position[1] - 2]}
 		end
 	end
