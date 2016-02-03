@@ -3,8 +3,8 @@ require_relative 'piece'
 class Pawn < Piece
 	attr_accessor :moved
 
-	def initialize(color, position, symbol)
-		super(color, position, symbol)
+	def initialize(label, color, position, symbol)
+		super(label, color, position, symbol)
 		@moved = false
 	end
 
@@ -14,22 +14,35 @@ class Pawn < Piece
 		@moves = []
 
 		apply_attacks(pawn_moves)
+		apply_obstacles(pawn_moves)
 		apply_boundaries(pawn_moves)
 
 		pawn_moves.each do |distance|
 			@moves << [@position[0] + distance[0], @position[1] + distance[1]]
 		end
+
+		#puts "#{@position}: #{@moves}"
+	end
+
+	def apply_obstacles(modifiers)
+		troops = @enemies + @allies
+
+		if @color == :white
+			modifiers.delete([0, 1]) if troops.any? { |troop| troop[0] == [@position[0], @position[1] + 1]}
+		else
+			modifiers.delete([0, 1]) if troops.any? { |troop| troop[0] == [@position[0], @position[1] - 1]}
+		end
 	end
 
 	def apply_attacks(modifiers)
 		if @color == :white
-			modifiers.delete([0, 1]) if @enemies.any? { |enemy| enemy == [@position[0], @position[1] + 1]}
-			modifiers << [1, 1] if @enemies.any? { |enemy| enemy == [@position[0] + 1, @position[1] + 1]}
-			modifiers << [-1, 1] if @enemies.any? { |enemy| enemy == [@position[0] - 1, @position[1] + 1]}
+			#modifiers.delete([0, 1]) if @enemies.any? { |enemy| enemy[0] == [@position[0], @position[1] + 1]}
+			modifiers << [1, 1] if @enemies.any? { |enemy| enemy[0] == [@position[0] + 1, @position[1] + 1]}
+			modifiers << [-1, 1] if @enemies.any? { |enemy| enemy[0] == [@position[0] - 1, @position[1] + 1]}
 		else
-			modifiers.delete([0, -1]) if @enemies.any? { |enemy| enemy == [@position[0], @position[1] - 1]}
-			modifiers << [1, -1] if @enemies.any? { |enemy| enemy == [@position[0] + 1, @position[1] - 1]}
-			modifiers << [-1, -1] if @enemies.any? { |enemy| enemy == [@position[0] - 1, @position[1] - 1]}
+			#modifiers.delete([0, -1]) if @enemies.any? { |enemy| enemy[0] == [@position[0], @position[1] - 1]}
+			modifiers << [1, -1] if @enemies.any? { |enemy| enemy[0] == [@position[0] + 1, @position[1] - 1]}
+			modifiers << [-1, -1] if @enemies.any? { |enemy| enemy[0] == [@position[0] - 1, @position[1] - 1]}
 		end
 	end
 end

@@ -14,10 +14,14 @@ class Bishop < Piece
 		end
 
 		apply_boundaries(bishop_moves)
+		puts "Modifiers A: #{bishop_moves}"
 		apply_attacks(bishop_moves)
+		puts "Modifiers B: #{bishop_moves}"
 
 		bishop_moves.each do |distance|
 			@moves << [@position[0] + distance[0], @position[1] + distance[1]]
 		end
+
+		puts "moves: #{@moves}"
 	end
 end

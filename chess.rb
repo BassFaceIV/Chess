@@ -30,10 +30,12 @@ class Chess
 			begin
 				from, to = query_player
 				moved = @board.move(player_turn, from, to) if !@game_over
-				board.update
+				#puts "-------------------------------GAME LOOP---------------------------------"
+				@board.update
+				#puts @board.kings[:black].check_mate
 			end while !moved && !@game_over
 
-			winner = @board.check_mate?
+			winner = false#@board.check_mate?
 			if winner != false
 				puts "Player #{@player_turn} destroyed Player #{@player_turn == 1 ? 2 : 1}!"
 				@game_over = true

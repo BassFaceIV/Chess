@@ -15,7 +15,7 @@ class Knight < Piece
 	def apply_friendlies(modifiers)
 		modifiers.delete_if do |mod|
 			@allies.any? do |ally|
-				ally == [@position[0] + mod[0], @position[1] + mod[1]]
+				ally[0] == [@position[0] + mod[0], @position[1] + mod[1]]
 			end
 		end
 	end

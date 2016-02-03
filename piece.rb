@@ -7,9 +7,11 @@ class Piece
 	attr_accessor :display
 	attr_accessor :allies
 	attr_accessor :enemies
+	attr_accessor :label
 
-	def initialize(color, position, symbol)
+	def initialize(label, color, position, symbol)
 		@id = @@pieces
+		@label = label
 		@color = color
 		@position = position
 		@display = symbol
@@ -38,11 +40,12 @@ class Piece
 			mod_mag = Math.sqrt(mod[0] ** 2 + mod[1] ** 2)
 
 			#delete if it has the same direction, but a greater magnetude than any enemy
-			value = @enemies.any? do |enemy|
-				enemy_dif0 = enemy[0] - @position[0]
-				enemy_dif1 = enemy[1] - @position[1]
+			@enemies.any? do |enemy|
+				enemy_dif0 = enemy[0][0] - @position[0]
+				enemy_dif1 = enemy[0][1] - @position[1]
 				enemy_dir = [enemy_dif0 <=> 0, enemy_dif1 <=> 0]
 				enemy_mag = Math.sqrt(enemy_dif0 ** 2 + enemy_dif1 ** 2)
+				puts "Mod_mag: #{mod_mag} | Enemy_mag: #{enemy_mag}"
 				(enemy_dir == mod_dir) && (mod_mag > enemy_mag)
 			end
 		end
@@ -55,8 +58,8 @@ class Piece
 
 			#delete if it has the same direction and a greater or equal magnetude than any ally
 			@allies.any? do |allies|
-				allies_dif0 = allies[0] - @position[0]
-				allies_dif1 = allies[1] - @position[1]
+				allies_dif0 = allies[0][0] - @position[0]
+				allies_dif1 = allies[0][1] - @position[1]
 				allies_dir = [allies_dif0 <=> 0, allies_dif1 <=> 0]
 				allies_mag = Math.sqrt(allies_dif0 ** 2 + allies_dif1 ** 2)
 				(allies_dir == mod_dir) && (mod_mag >= allies_mag)
